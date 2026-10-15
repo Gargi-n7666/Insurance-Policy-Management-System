@@ -1,0 +1,8 @@
+package com.example.insurance.exception;
+import org.springframework.http.*; import org.springframework.web.bind.annotation.*; import org.springframework.web.bind.MethodArgumentNotValidException; import org.springframework.dao.DataIntegrityViolationException; import java.util.*; import java.util.stream.Collectors;
+@RestControllerAdvice public class GlobalExceptionHandler {
+@ExceptionHandler(ResourceNotFoundException.class) public ResponseEntity<Map<String,Object>> notFound(Exception e){return error(HttpStatus.NOT_FOUND,e.getMessage());}
+@ExceptionHandler({IllegalArgumentException.class}) public ResponseEntity<Map<String,Object>> badRequest(Exception e){return error(HttpStatus.BAD_REQUEST,e.getMessage());}
+@ExceptionHandler(MethodArgumentNotValidException.class) public ResponseEntity<Map<String,Object>> invalid(MethodArgumentNotValidException e){String m=e.getBindingResult().getFieldErrors().stream().map(x->x.getField()+": "+x.getDefaultMessage()).collect(Collectors.joining("; "));return error(HttpStatus.BAD_REQUEST,m);}
+@ExceptionHandler(DataIntegrityViolationException.class) public ResponseEntity<Map<String,Object>> conflict(Exception e){return error(HttpStatus.CONFLICT,"A unique field or relationship conflicts with existing data.");}
+private ResponseEntity<Map<String,Object>> error(HttpStatus s,String m){Map<String,Object>b=new LinkedHashMap<>();b.put("status",s.value());b.put("error",s.getReasonPhrase());b.put("message",m);return ResponseEntity.status(s).body(b);} }
