@@ -1,1 +1,29 @@
-package com.example.insurance.controller;import com.example.insurance.service.LoginAccountService;import jakarta.validation.constraints.NotBlank;import jakarta.validation.Valid;import org.springframework.web.bind.annotation.*;import java.util.*;@RestController @RequestMapping("/api") public class LoginController {private final LoginAccountService s;public LoginController(LoginAccountService s){this.s=s;}public static class LoginRequest {@NotBlank public String username;@NotBlank public String password;}@PostMapping("/login") public Map<String,Object> login(@Valid @RequestBody LoginRequest r){return s.login(r.username,r.password);}}
+package com.example.insurance.controller;
+
+import com.example.insurance.service.LoginAccountService;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
+import java.util.*;
+
+@RestController
+@RequestMapping("/api")
+public class LoginController {
+	private final LoginAccountService s;
+
+	public LoginController(LoginAccountService s) {
+		this.s = s;
+	}
+
+	public static class LoginRequest {
+		@NotBlank
+		public String username;
+		@NotBlank
+		public String password;
+	}
+
+	@PostMapping("/login")
+	public Map<String, Object> login(@Valid @RequestBody LoginRequest r) {
+		return s.login(r.username, r.password);
+	}
+}
