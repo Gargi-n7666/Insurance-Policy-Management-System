@@ -1,1 +1,20 @@
-package com.example.insurance.controller.user; import com.example.insurance.entity.Customer;import com.example.insurance.service.CustomerService;import org.springframework.web.bind.annotation.*;@RestController @RequestMapping("/api/customer/customers") public class CustomerController {private final CustomerService s;public CustomerController(CustomerService s){this.s=s;}@GetMapping("/{id}") public Customer profile(@PathVariable Long id){return s.getById(id);}}
+package com.example.insurance.controller.user;
+
+import com.example.insurance.entity.Customer;
+import com.example.insurance.service.CustomerService;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/customer/customers")
+public class CustomerController {
+	private final CustomerService s;
+
+	public CustomerController(CustomerService s) {
+		this.s = s;
+	}
+
+	@GetMapping("/{id}")
+	public Customer profile(@PathVariable Long id) {
+		return s.getById(id);
+	}
+}
